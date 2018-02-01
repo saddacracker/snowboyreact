@@ -17,8 +17,7 @@ import ai.kitt.snowboy.SnowboyDetect;
 public class RecordingThread {
     static { System.loadLibrary("snowboy-detect-android"); }
 
-//    private static final String TAG = RecordingThread.class.getSimpleName();
-    private static final String TAG = "Snowboy RecordingThread";
+    private static final String TAG = RecordingThread.class.getSimpleName();
 
     private static final String ACTIVE_RES = Constants.ACTIVE_RES;
     //private static final String ACTIVE_UMDL = Constants.ACTIVE_UMDL;
@@ -48,11 +47,7 @@ public class RecordingThread {
     }
 
     public void startRecording() {
-        Log.v(TAG, "startRecording called");
-
         detector.setSensitivity("0.60");
-        Log.v(TAG, "detector.setSensitivity called");
-
         //detector.setAudioGain(1);
         detector.applyFrontend(true);
 

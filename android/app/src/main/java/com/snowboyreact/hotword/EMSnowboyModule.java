@@ -56,8 +56,6 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
                         Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             AppResCopy.copyResFromAssetsToSD(mReactContext);
 
-            Log.v(TAG, "WRITE_EXTERNAL_STORAGE and RECORD_AUDIO granted");
-
             recordingThread = new RecordingThread(new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -102,7 +100,6 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
 
         if(recordingThread !=null) {
             recordingThread.startRecording();
-            // isDetectionOn = true;
         }
     }
 
@@ -112,7 +109,6 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
 
         if(recordingThread !=null){
             recordingThread.stopRecording();
-            // isDetectionOn = false;
         }
     }
 
