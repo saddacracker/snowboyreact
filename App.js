@@ -10,29 +10,42 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  DeviceEventEmitter,
+  ToastAndroid
 } from 'react-native';
 
 import Hotword from './src/native/Hotword';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu',
-});
 
-export default class App extends Component<{}> {
-
-  onPressStart() {
-    Hotword.start();
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { isRecording: false };
   }
 
-  onPressStop() {
-    Hotword.stop();
+  onPressRecord(isRecording) {
+
+    if(isRecording) {
+      Hotword.stop();
+    } else {
+      Hotword.start();
+    }
+
+    this.setState({
+      isRecording: !this.state.isRecording
+    });
   }
 
+  handleHotwordDetection() {
+    ToastAndroid.show('Hossword Detected!', ToastAndroid.SHORT);
+  }
 
   componentDidMount() {
       Hotword.initHotword();
+      DeviceEventEmitter.addListener('HOTWORD_DETECTED', (e: Event) => {
+        this.handleHotwordDetection();
+      });
   }
 
   componentWillUnmount() {
@@ -44,30 +57,18 @@ export default class App extends Component<{}> {
       <View style={styles.container}>
         <View>
           <Text style={styles.welcome}>
-            Hello!
+            Hey Hoss!
           </Text>
           <Text style={styles.instructions}>
             Say "Hey Hoss" to log detection.
-          </Text>
-          <Text style={styles.instructions}>
-            {instructions}
           </Text>
         </View>
 
         <View style={styles.btnWrapper}>
           <Button
-            onPress={() => {this.onPressStart()}}
-            title="Start"
+            onPress={() => {this.onPressRecord(this.state.isRecording)}}
+            title={ this.state.isRecording ? "Stop" : "Start" }
             color="#841584"
-            accessibilityLabel="Start recording voice"
-          />
-        </View>
-        <View style={styles.btnWrapper}>
-          <Button
-            onPress={() => {this.onPressStop()}}
-            title="Stop"
-            color="#841584"
-            accessibilityLabel="Stop recording voice"
           />
         </View>
       </View>

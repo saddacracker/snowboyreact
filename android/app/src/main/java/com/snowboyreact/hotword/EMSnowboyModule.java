@@ -10,9 +10,12 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
@@ -26,6 +29,8 @@ import ai.kitt.snowboy.AppResCopy;
 
 public class EMSnowboyModule extends ReactContextBaseJavaModule {
 
+    private static final String HOTWORD_DETECTED = "HOTWORD_DETECTED";
+    private static final String HOTWORD_ERROR = "HOTWORD_ERROR";
     private ReactApplicationContext mReactContext;
     private RecordingThread recordingThread;
     private int preVolume = -1;
@@ -56,29 +61,26 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
                     MsgEnum message = MsgEnum.getMsgEnum(msg.what);
                     String messageText = (String) msg.obj;
 
-                    Log.v(TAG, "Handle Message");
-
-
                     switch(message) {
                         case MSG_ACTIVE:
                             //HOTWORD DETECTED. NOW DO WHATEVER YOU WANT TO DO HERE
-                            Log.v(TAG, "MSG_ACTIVE");
+                            sendEvent(mReactContext, HOTWORD_DETECTED, null);
+                            // Log.v(TAG, "MSG_ACTIVE");
                             break;
                         case MSG_INFO:
-                            Log.v(TAG, "MSG_INFO");
+                            // Log.v(TAG, "MSG_INFO");
                             break;
                         case MSG_VAD_SPEECH:
-                            Log.v(TAG, "MSG_VAD_SPEECH");
+                            // Log.v(TAG, "MSG_VAD_SPEECH");
                             break;
                         case MSG_VAD_NOSPEECH:
-                            Log.v(TAG, "MSG_VAD_NOSPEECH");
+                            // Log.v(TAG, "MSG_VAD_NOSPEECH");
                             break;
                         case MSG_ERROR:
-                            Log.v(TAG, "MSG_ERROR");
+                            sendEvent(mReactContext, HOTWORD_ERROR, null);
                             break;
                         default:
                             super.handleMessage(msg);
-                            Log.v(TAG, "DEFAULT");
                             break;
                     }
                 }
@@ -110,4 +112,13 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
     public void destroy() {
         recordingThread.stopRecording();
     }
+
+    private void sendEvent(ReactContext reactContext,
+                           String eventName,
+                           @Nullable WritableMap params) {
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(eventName, params);
+    }
+
 }
