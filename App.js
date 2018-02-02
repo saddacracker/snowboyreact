@@ -35,6 +35,10 @@ export default class App extends Component<{}> {
       Hotword.initHotword();
   }
 
+  componentWillUnmount() {
+    Hotword.destroy();
+  }
+
   render() {
     return (
       <View style={styles.container}>

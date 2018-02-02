@@ -105,4 +105,9 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
             recordingThread.stopRecording();
         }
     }
+
+    @ReactMethod
+    public void destroy() {
+        recordingThread.stopRecording();
+    }
 }
