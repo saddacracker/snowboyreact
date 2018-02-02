@@ -43,7 +43,7 @@ export default class App extends Component<{}> {
             Hello!
           </Text>
           <Text style={styles.instructions}>
-            Say "Susi"
+            Say "Hey Hoss" to log detection.
           </Text>
           <Text style={styles.instructions}>
             {instructions}

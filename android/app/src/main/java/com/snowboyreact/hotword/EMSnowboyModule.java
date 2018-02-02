@@ -15,8 +15,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.content.Context;
-import android.media.AudioManager;
 
 import android.os.Handler;
 import android.os.Message;
@@ -37,8 +35,6 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
     public EMSnowboyModule(ReactApplicationContext reactContext) {
         super(reactContext);
         mReactContext = reactContext;
-
-        setProperVolume();
     }
 
     @Override
@@ -48,8 +44,6 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void initHotword() {
-        Log.v(TAG, "Initialized");
-
         if (ActivityCompat.checkSelfPermission(mReactContext,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(mReactContext,
@@ -111,16 +105,4 @@ public class EMSnowboyModule extends ReactContextBaseJavaModule {
             recordingThread.stopRecording();
         }
     }
-
-    private void setProperVolume() {
-        AudioManager audioManager = (AudioManager) mReactContext.getSystemService(Context.AUDIO_SERVICE);
-
-        preVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-
-        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        int properVolume = (int) ((float) maxVolume * 0.2);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, properVolume, 0);
-
-    }
-
 }
