@@ -5,22 +5,7 @@ Integrate Snowboy hotword detection into React Native.
 ### What is this repository for? ###
 
 * We had difficulting running swig in the Snowboy project and porting the libs to a new/different android project. This is a springboard for getting Snowboy to work in React Native
-* 0.2
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests? Psh...
-* Create a pull request onto the develop branch
+* v0.2
 
 ### Who do I talk to? ###
 
